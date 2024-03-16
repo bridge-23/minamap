@@ -9,6 +9,10 @@ export type MapPageProps = {
 
 export function MapPage({ visitedCountries, onCountryClick }: MapPageProps) {
   const MATCH_QUERY = "g.countries_svg__entities > g";
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
 
   function paintCountry(countryGroup: Element) {
     const color = randomColor({
@@ -42,6 +46,41 @@ export function MapPage({ visitedCountries, onCountryClick }: MapPageProps) {
     return listenersCache[countryId];
   }
 
+    // Функции для масштабирования
+    const zoomIn = () => {
+      setScale(scale * 1.1);
+    };
+  
+    const zoomOut = () => {
+      setScale(scale / 1.1);
+    };
+  
+    const resetZoom = () => {
+      setScale(1);
+      setPosition({ x: 0, y: 0 }); // Сброс позиции при сбросе масштаба
+    };
+  
+    // Обработчики событий мыши
+    const handleMouseDown = (e: { clientX: number; clientY: number; preventDefault: () => void; }) => {
+      setIsDragging(true);
+      setStartPosition({ x: e.clientX - position.x, y: e.clientY - position.y });
+      e.preventDefault(); // Предотвратить стандартное поведение
+    };
+  
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+  
+    const handleMouseMove = (e: { clientX: number; clientY: number; preventDefault: () => void; }) => {
+      if (isDragging) {
+        setPosition({
+          x: e.clientX - startPosition.x,
+          y: e.clientY - startPosition.y,
+        });
+        e.preventDefault();
+      }
+    };
+
   useEffect(() => {
     setTimeout(() => {
       console.log("visitedCountries", visitedCountries);
@@ -69,7 +108,14 @@ export function MapPage({ visitedCountries, onCountryClick }: MapPageProps) {
 
   return (
     <div>
-      <WorldMapSVG />
+      <div className="absolute z-10 top-2 left-2 flex space-x-2">
+        <button onClick={zoomIn} className="bg-blue-500 text-white px-4 py-2 rounded">Zoom In</button>
+        <button onClick={zoomOut} className="bg-blue-500 text-white px-4 py-2 rounded">Zoom Out</button>
+        <button onClick={resetZoom} className="bg-blue-500 text-white px-4 py-2 rounded">Reset</button>
+      </div>
+      <div onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onMouseLeave={handleMouseUp} className="w-full h-full">
+        <WorldMapSVG />
+      </div>
     </div>
   );
 }

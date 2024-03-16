@@ -27,11 +27,6 @@ function MapPage() {
           handleCountryClick(e.target.id);
         }
       }} />
-      <ul>
-        {visitedCountries.map((country) => (
-          <li key={country.code}>{country.name}</li>
-        ))}
-      </ul>
     </div>
   );
 }
