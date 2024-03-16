@@ -5,6 +5,7 @@ type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 // ---------------------------------------------------------------------------------------
 
 import type { MinaMap } from "../../../contracts/src/MinaMap";
+import { COUNTRY_CODES } from "./countries";
 
 const state = {
   MinaMap: null as null | typeof MinaMap,
@@ -39,17 +40,23 @@ const functions = {
   },
   getCountries: async (args: {}) => {
     const currentNum = await state.zkapp!.countries.get();
+    console.log("Current State in zkApp: ", currentNum.toString());
     return JSON.stringify(currentNum.toJSON());
   },
+
   createUpdateTransaction: async (args: { newCountries: string }) => {
+    const newField = Field.fromJSON(JSON.parse(args.newCountries));
+    console.log("New Field: ", newField.toJSON());
     const transaction = await Mina.transaction(() => {
-      state.zkapp!.setCountries(Field.fromJSON(JSON.parse(args.newCountries)));
+      state.zkapp!.setCountries(newField);
     });
     state.transaction = transaction;
   },
+
   proveUpdateTransaction: async (args: {}) => {
     await state.transaction!.prove();
   },
+
   getTransactionJSON: async (args: {}) => {
     return state.transaction!.toJSON();
   },

@@ -4,9 +4,12 @@ import ZkappWorkerClient from "./zkappWorkerClient";
 import { PublicKey, Field } from "o1js";
 import GradientBG from "../components/GradientBG.js";
 import styles from "../styles/Home.module.css";
+import { MapPage } from "@/components/Map";
+import { countryCodesToField, fieldToCountryCodes } from "./countries";
+import { stat } from "fs";
 
 let transactionFee = 0.5;
-const ZKAPP_ADDRESS = "B62qmKhc2kCjBcZrkGuCxSwBhR2T6u6uwyMxrijqXFiYGw2tvjtbAma";
+const ZKAPP_ADDRESS = "B62qiUdL9yGaniq5at8wKhCgcQCbh7jB8ebYWg7KAgzyvViAgVcxEaY";
 
 export default function Home() {
   const [state, setState] = useState({
@@ -15,6 +18,7 @@ export default function Home() {
     hasBeenSetup: false,
     accountExists: false,
     currentNum: null as null | Field,
+    currentCountries: [] as string[],
     publicKey: null as null | PublicKey,
     zkappPublicKey: null as null | PublicKey,
     creatingTransaction: false,
@@ -96,6 +100,7 @@ export default function Home() {
           zkappPublicKey,
           accountExists,
           currentNum,
+          currentCountries: fieldToCountryCodes(currentNum),
         });
       }
     })();
@@ -185,6 +190,58 @@ export default function Home() {
   };
 
   // -------------------------------------------------------
+  // Add a country code
+  const onCodeAdded = async (countryCode: string) => {
+    const currentCountries = state.currentCountries;
+    if (currentCountries.includes(countryCode)) {
+      return false;
+    }
+
+    const newCountries = [...currentCountries, countryCode];
+    const newField = countryCodesToField(newCountries);
+
+    console.log("Setting new state in zkApp...");
+    setDisplayText("Setting new state in zkApp...");
+    await state.zkappWorkerClient!.createUpdateTransaction(newField);
+
+    setDisplayText("Creating proof...");
+    console.log("Creating proof...");
+    await state.zkappWorkerClient!.proveUpdateTransaction();
+
+    console.log("Requesting send transaction...");
+    setDisplayText("Requesting send transaction...");
+    const transactionJSON = await state.zkappWorkerClient!.getTransactionJSON();
+
+    setState({
+      ...state,
+      currentCountries: newCountries,
+      currentNum: newField,
+    });
+    console.log(`New state in zkApp: ${newField.toString()}`);
+    setDisplayText("");
+
+    setDisplayText("Getting transaction JSON...");
+    console.log("Getting transaction JSON...");
+    const { hash } = await (window as any).mina.sendTransaction({
+      transaction: transactionJSON,
+      feePayer: {
+        fee: transactionFee,
+        memo: "",
+      },
+    });
+
+    setState({
+      ...state,
+      currentCountries: newCountries,
+      currentNum: newField,
+    });
+    console.log(`New state in zkApp: ${newField.toString()}`);
+    setDisplayText("");
+
+    return true;
+  };
+
+  // -------------------------------------------------------
   // Create UI elements
 
   let hasWallet;
@@ -234,16 +291,13 @@ export default function Home() {
   if (state.hasBeenSetup && state.accountExists) {
     mainContent = (
       <div style={{ justifyContent: "center", alignItems: "center" }}>
-        <div className={styles.center} style={{ padding: 0 }}>
-          Current state in zkApp: {state.currentNum!.toString()}{" "}
-        </div>
-        <button
+        {/* <button
           className={styles.card}
           onClick={onSendTransaction}
           disabled={state.creatingTransaction}
         >
           Send Transaction
-        </button>
+        </button> */}
         <button className={styles.card} onClick={onRefreshCurrentNum}>
           Get Latest State
         </button>
@@ -252,14 +306,21 @@ export default function Home() {
   }
 
   return (
-    <GradientBG>
-      <div className={styles.main} style={{ padding: 0 }}>
-        <div className={styles.center} style={{ padding: 0 }}>
+    <div>
+      {state.hasBeenSetup && state.accountExists && (
+        <MapPage
+          visitedCountries={state.currentCountries}
+          onCountryClick={onCodeAdded}
+        />
+      )}
+
+      <div style={{ padding: 0 }}>
+        <div style={{ padding: 0 }}>
           {setup}
           {accountDoesNotExist}
           {mainContent}
         </div>
       </div>
-    </GradientBG>
+    </div>
   );
 }

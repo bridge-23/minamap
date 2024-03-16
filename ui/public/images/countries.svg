@@ -6,33 +6,34 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
       <style type="text/css">
-.svg {
-         width: 100%;
-         height: auto;
+         .svg {
+            width: 100%;
+            height: auto;
          }
-         .land {
-         fill: #f0f0f0;
+         .land, .landxx {
+            fill: #f0f0f0;
+            stroke: #000;
          }
-         .landxx {
-         fill: #f0f0f0;
+
+         .land:hover, .landxx:hover {
+            fill: #f0f0f0;
          }
-         .land:hover {
-         fill: #f0f0f0;
+
+         .visited .land, .visited .landxx {
+            fill: #2563eb !important;
          }
-         .landxx:hover {
-         fill: #f0f0f0;
-         }
+
          .water {
-         fill: #0f172a;
-}
+            fill: #0f172a;
+         }
          .ocean {
-         fill: #0f172a;
+            fill: #0f172a;
          }
          .entities path {
-         fill: #334155;
+            fill: #334155;
          }
-         .visited-country {
-         fill: #2563eb;
+         .visited {
+            fill: #2563eb !important;
          }
 
       </style>
@@ -921,7 +922,7 @@
       </g>
       <g
          id="us"
-         class="landxx coastxx us">
+         class="landxx coastxx us visited-country">
         <title
            id="title13009">United States of America</title>
         <path
