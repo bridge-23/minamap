@@ -1,3 +1,7 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 @font-face {
   font-family: 'ABC Monument Grotesk';
   font-style: normal;
@@ -42,8 +46,6 @@ body {
   overflow-x: hidden;
   font-family: 'ABC Monument Grotesk';
   background-color: #0f172a;
-  color: rgb(36, 166, 231);
-  font-size: 14px;
   height: 100%;
   width: 100%;
   position: relative;
