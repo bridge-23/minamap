@@ -5,6 +5,10 @@ const nextConfig = {
 
 
   webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
     config.resolve.alias = {
       ...config.resolve.alias,
       o1js: require('path').resolve('node_modules/o1js')
