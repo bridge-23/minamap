@@ -193,12 +193,15 @@ export default function Home() {
   // Add a country code
   const onCodeAdded = async (countryCode: string) => {
     const currentCountries = state.currentCountries;
+
     if (currentCountries.includes(countryCode)) {
       return false;
     }
 
     const newCountries = [...currentCountries, countryCode];
     const newField = countryCodesToField(newCountries);
+
+    console.log("newField", newField.toString());
 
     console.log("Setting new state in zkApp...");
     setDisplayText("Setting new state in zkApp...");
@@ -222,6 +225,7 @@ export default function Home() {
 
     setDisplayText("Getting transaction JSON...");
     console.log("Getting transaction JSON...");
+
     const { hash } = await (window as any).mina.sendTransaction({
       transaction: transactionJSON,
       feePayer: {
@@ -237,6 +241,14 @@ export default function Home() {
     });
     console.log(`New state in zkApp: ${newField.toString()}`);
     setDisplayText("");
+
+    const transactionLink = `https://berkeley.minaexplorer.com/transaction/${hash}`;
+    console.log(`View transaction at ${transactionLink}`);
+
+    setTransactionLink(transactionLink);
+    setDisplayText(transactionLink);
+
+    setState({ ...state, creatingTransaction: false });
 
     return true;
   };

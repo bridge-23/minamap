@@ -1,4 +1,4 @@
-import { Field } from "o1js";
+import { Field, Bool } from "o1js";
 
 const COUNTRIES = {
   AD: "Andorra",
@@ -221,7 +221,12 @@ export const COUNTRY_CODES = Object.keys(COUNTRIES).map((code) =>
 );
 
 export function fieldToCountryCodes(field: Field): string[] {
-  const bits = field.toBits(COUNTRY_CODES.length).map((bit) => bit.toBoolean());
+  const bigInt = field.toBigInt();
+
+  const bits = bigInt
+    .toString(2)
+    .split("")
+    .map((bit) => bit === "1");
 
   const selectedCountries = [];
   for (let i = 0; i < bits.length; i++) {
@@ -234,10 +239,10 @@ export function fieldToCountryCodes(field: Field): string[] {
 }
 
 export function countryCodesToField(countryCodes: string[]): Field {
-  let bits = [];
+  let bigInt = 0n;
   for (let i = 0; i < countryCodes.length; i++) {
-    bits[i] = countryCodes.includes(COUNTRY_CODES[i]);
+    bigInt += 2n ** BigInt(COUNTRY_CODES.indexOf(countryCodes[i]));
   }
 
-  return Field.fromBits(bits);
+  return Field.from(bigInt);
 }
