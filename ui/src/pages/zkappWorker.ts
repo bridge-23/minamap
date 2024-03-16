@@ -1,14 +1,14 @@
-import { Mina, PublicKey, fetchAccount } from "o1js";
+import { Mina, PublicKey, Field, fetchAccount, Poseidon } from "o1js";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
 // ---------------------------------------------------------------------------------------
 
-import type { Add } from "../../../contracts/src/Add";
+import type { MinaMap } from "../../../contracts/src/MinaMap";
 
 const state = {
-  Add: null as null | typeof Add,
-  zkapp: null as null | Add,
+  MinaMap: null as null | typeof MinaMap,
+  zkapp: null as null | MinaMap,
   transaction: null as null | Transaction,
 };
 
@@ -23,11 +23,11 @@ const functions = {
     Mina.setActiveInstance(Berkeley);
   },
   loadContract: async (args: {}) => {
-    const { Add } = await import("../../../contracts/build/src/Add.js");
-    state.Add = Add;
+    const { MinaMap } = await import("../../../contracts/build/src/MinaMap.js");
+    state.MinaMap = MinaMap;
   },
   compileContract: async (args: {}) => {
-    await state.Add!.compile();
+    await state.MinaMap!.compile();
   },
   fetchAccount: async (args: { publicKey58: string }) => {
     const publicKey = PublicKey.fromBase58(args.publicKey58);
@@ -35,15 +35,15 @@ const functions = {
   },
   initZkappInstance: async (args: { publicKey58: string }) => {
     const publicKey = PublicKey.fromBase58(args.publicKey58);
-    state.zkapp = new state.Add!(publicKey);
+    state.zkapp = new state.MinaMap!(publicKey);
   },
   getNum: async (args: {}) => {
-    const currentNum = await state.zkapp!.num.get();
+    const currentNum = await state.zkapp!.countries.get();
     return JSON.stringify(currentNum.toJSON());
   },
   createUpdateTransaction: async (args: {}) => {
     const transaction = await Mina.transaction(() => {
-      state.zkapp!.update();
+      state.zkapp!.setVisited(Field(2));
     });
     state.transaction = transaction;
   },
