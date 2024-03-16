@@ -1,3 +1,3 @@
-import { Add } from './Add.js';
+import { MinaMap } from './MinaMap.js';
 
-export { Add };
+export { MinaMap };
