@@ -1,17 +1,18 @@
 /* General */
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #0f172a;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   height: 100%;
   width: 100%;
   font-size: 14px;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #EAEAEA;
 }
 
 #title {
@@ -81,6 +82,7 @@ html, body {
   padding: 5px;
   overflow: hidden;
 }
+
 .section-inner-column {
   flex: 50%;
   padding: 5px;
@@ -108,7 +110,8 @@ html, body {
   float: right;
 }
 
-.active, .section-collapsible-button:hover {
+.active,
+.section-collapsible-button:hover {
   background-color: #555;
 }
 
@@ -128,7 +131,8 @@ html, body {
   font-size: 16px;
 }
 
-.section-table th, .section-table td {
+.section-table th,
+.section-table td {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
@@ -164,15 +168,18 @@ html, body {
   float: left;
   padding: 5px 10px;
 }
+
 .zoom-reset {
   display: inline-block;
   padding: 0px 6px;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
 }
+
 .zoom-in {
   display: inline-block;
   padding: 0px 6px;
 }
+
 .zoom-out {
   display: inline-block;
   padding: 0px 6px;
@@ -189,12 +196,18 @@ html, body {
   cursor: all-scroll;
   margin: auto;
   width: 100%;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-          user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
 }
 
@@ -205,13 +218,15 @@ html, body {
   padding: 0px 15px;
   font-weight: 700;
 }
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.site-logo, #site-logo {
+.site-logo,
+#site-logo {
   height: 60px;
 }
 
@@ -229,6 +244,7 @@ html, body {
   list-style: none;
   display: flex;
 }
+
 .navbar ul li a {
   color: #fff;
   padding: 20px;
@@ -236,8 +252,9 @@ html, body {
   text-decoration: none;
   text-transform: uppercase;
 }
+
 .navbar ul li a:hover {
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255, 255, 255, .1);
 }
 
 .nav-toggle {
@@ -248,8 +265,9 @@ html, body {
   height: 39px;
   display: none;
 }
-.nav-toggle span, 
-.nav-toggle span:before, 
+
+.nav-toggle span,
+.nav-toggle span:before,
 .nav-toggle span:after {
   width: 28px;
   height: 3px;
@@ -257,20 +275,25 @@ html, body {
   display: block;
   transition: .3s;
 }
+
 .nav-toggle span:before {
   content: '';
   transform: translateY(-9px);
 }
+
 .nav-toggle span:after {
   content: '';
   transform: translateY(6px);
 }
+
 .nav-toggle.toggle-open span {
   background-color: transparent;
 }
+
 .nav-toggle.toggle-open span:before {
   transform: translateY(0px) rotate(45deg);
 }
+
 .nav-toggle.toggle-open span:after {
   transform: translateY(-3px) rotate(-45deg);
 }
@@ -279,12 +302,15 @@ html, body {
   .navbar-wrapper {
     max-width: 720px;
   }
-  .nav-toggle{
+
+  .nav-toggle {
     display: block;
   }
+
   .navbar {
     min-height: 60px;
   }
+
   .navbar ul {
     position: absolute;
     width: 100%;
@@ -299,20 +325,25 @@ html, body {
     overflow: hidden;
     transition: .3s;
   }
+
   .navbar ul li {
     width: 100%;
     text-align: center;
   }
+
   .navbar ul li a {
     padding: 25px;
   }
+
   .navbar ul li a:hover {
-    background-color: rgba(255,255,255,.1);
+    background-color: rgba(255, 255, 255, .1);
   }
+
   .navbar ul.open {
     max-height: 100vh;
     overflow: visible;
   }
+
   .intro-area h2 {
     font-size: 36px;
     margin-bottom: 15px;
