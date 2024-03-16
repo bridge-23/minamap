@@ -16,7 +16,9 @@ export class MinaMap extends SmartContract {
 
   init() {
     super.init();
-    this.countries.set(Field(0));
+    this.countries.set(
+      Field.fromBits([true, false, true, false, true, false, true, false])
+    );
   }
 
   @method setCountries(newCountries: Field): void {

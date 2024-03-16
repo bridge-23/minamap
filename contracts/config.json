@@ -9,6 +9,15 @@
       "feepayerAlias": "deployer6",
       "fee": "0.2",
       "smartContract": "MinaMap"
+    },
+    "deploy7": {
+      "networkId": "testnet",
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/deploy7.json",
+      "feepayerKeyPath": "/Users/codingfu/.cache/zkapp-cli/keys/d7.json",
+      "feepayerAlias": "d7",
+      "fee": "0.5",
+      "smartContract": "MinaMap"
     }
   }
 }

@@ -48,7 +48,17 @@ describe('MinaMap', () => {
   it('generates and deploys the `Add2` smart contract', async () => {
     await localDeploy();
     const countries = zkApp.countries.get();
-    expect(countries).toEqual(Field(0));
+    const fv = Field.fromBits([
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+    ]);
+    expect(countries).toEqual(fv);
   });
 
   it('correctly updates the num state on the `Add2` smart contract', async () => {
