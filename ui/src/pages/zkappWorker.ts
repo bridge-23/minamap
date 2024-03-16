@@ -1,4 +1,4 @@
-import { Mina, PublicKey, Field, fetchAccount, Poseidon } from "o1js";
+import { Field, Mina, PublicKey, fetchAccount } from "o1js";
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
@@ -37,13 +37,13 @@ const functions = {
     const publicKey = PublicKey.fromBase58(args.publicKey58);
     state.zkapp = new state.MinaMap!(publicKey);
   },
-  getNum: async (args: {}) => {
+  getCountries: async (args: {}) => {
     const currentNum = await state.zkapp!.countries.get();
     return JSON.stringify(currentNum.toJSON());
   },
-  createUpdateTransaction: async (args: {}) => {
+  createUpdateTransaction: async (args: { newCountries: string }) => {
     const transaction = await Mina.transaction(() => {
-      state.zkapp!.setVisited(Field(2));
+      state.zkapp!.setCountries(Field.fromJSON(JSON.parse(args.newCountries)));
     });
     state.transaction = transaction;
   },

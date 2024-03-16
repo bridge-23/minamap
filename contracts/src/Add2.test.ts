@@ -1,5 +1,5 @@
-import { MinaMap } from './MinaMap';
-import { Field, Mina, PrivateKey, PublicKey, AccountUpdate, UInt8 } from 'o1js';
+import { Add2 } from './Add2';
+import { Field, Mina, PrivateKey, PublicKey, AccountUpdate } from 'o1js';
 
 /*
  * This file specifies how to test the `Add2` example smart contract. It is safe to delete this file and replace
@@ -10,17 +10,17 @@ import { Field, Mina, PrivateKey, PublicKey, AccountUpdate, UInt8 } from 'o1js';
 
 let proofsEnabled = false;
 
-describe('MinaMap', () => {
+describe('Add2', () => {
   let deployerAccount: PublicKey,
     deployerKey: PrivateKey,
     senderAccount: PublicKey,
     senderKey: PrivateKey,
     zkAppAddress: PublicKey,
     zkAppPrivateKey: PrivateKey,
-    zkApp: MinaMap;
+    zkApp: Add2;
 
   beforeAll(async () => {
-    if (proofsEnabled) await MinaMap.compile();
+    if (proofsEnabled) await Add2.compile();
   });
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('MinaMap', () => {
       Local.testAccounts[1]);
     zkAppPrivateKey = PrivateKey.random();
     zkAppAddress = zkAppPrivateKey.toPublicKey();
-    zkApp = new MinaMap(zkAppAddress);
+    zkApp = new Add2(zkAppAddress);
   });
 
   async function localDeploy() {
@@ -47,8 +47,8 @@ describe('MinaMap', () => {
 
   it('generates and deploys the `Add2` smart contract', async () => {
     await localDeploy();
-    const countries = zkApp.countries.get();
-    expect(countries).toEqual(Field(0));
+    const num = zkApp.num.get();
+    expect(num).toEqual(Field(1));
   });
 
   it('correctly updates the num state on the `Add2` smart contract', async () => {
@@ -56,12 +56,12 @@ describe('MinaMap', () => {
 
     // update transaction
     const txn = await Mina.transaction(senderAccount, () => {
-      zkApp.setCountries(Field.fromBits([false, true, false]));
+      zkApp.update();
     });
     await txn.prove();
     await txn.sign([senderKey]).send();
 
-    const updatedNum = zkApp.countries.get();
-    expect(updatedNum).toEqual(Field.fromBits([false, true, false]));
+    const updatedNum = zkApp.num.get();
+    expect(updatedNum).toEqual(Field(3));
   });
 });

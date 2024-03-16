@@ -1,14 +1,14 @@
 {
   "version": 1,
   "deployAliases": {
-    "minamap": {
+    "deploy6": {
       "networkId": "testnet",
       "url": "https://proxy.berkeley.minaexplorer.com/graphql",
-      "keyPath": "keys/minamap.json",
-      "feepayerKeyPath": "/Users/codingfu/.cache/zkapp-cli/keys/deployer.json",
-      "feepayerAlias": "deployer",
-      "fee": "0.1",
-      "smartContract": "Add"
+      "keyPath": "keys/deploy6.json",
+      "feepayerKeyPath": "/Users/codingfu/.cache/zkapp-cli/keys/deployer6.json",
+      "feepayerAlias": "deployer6",
+      "fee": "0.2",
+      "smartContract": "MinaMap"
     }
   }
 }

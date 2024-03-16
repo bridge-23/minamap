@@ -38,13 +38,15 @@ export default class ZkappWorkerClient {
     });
   }
 
-  async getNum(): Promise<Field> {
-    const result = await this._call("getNum", {});
+  async getCountries(): Promise<Field> {
+    const result = await this._call("getCountries", {});
     return Field.fromJSON(JSON.parse(result as string));
   }
 
-  createUpdateTransaction() {
-    return this._call("createUpdateTransaction", {});
+  createUpdateTransaction(newCountries: Field) {
+    return this._call("createUpdateTransaction", {
+      newCountries: newCountries.toJSON(),
+    });
   }
 
   proveUpdateTransaction() {

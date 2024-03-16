@@ -5,8 +5,8 @@ import { PublicKey, Field } from "o1js";
 import GradientBG from "../components/GradientBG.js";
 import styles from "../styles/Home.module.css";
 
-let transactionFee = 0.1;
-const ZKAPP_ADDRESS = "B62qjWhUB8hGY1fx2zuKxR2yL9RAi4FKhGGqf4od1FRWGemZyhWj2Vo";
+let transactionFee = 0.5;
+const ZKAPP_ADDRESS = "B62qmKhc2kCjBcZrkGuCxSwBhR2T6u6uwyMxrijqXFiYGw2tvjtbAma";
 
 export default function Home() {
   const [state, setState] = useState({
@@ -83,7 +83,7 @@ export default function Home() {
         console.log("Getting zkApp state...");
         setDisplayText("Getting zkApp state...");
         await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey });
-        const currentNum = await zkappWorkerClient.getNum();
+        const currentNum = await zkappWorkerClient.getCountries();
         console.log(`Current state in zkApp: ${currentNum.toString()}`);
         setDisplayText("");
 
@@ -137,7 +137,9 @@ export default function Home() {
       publicKey: state.publicKey!,
     });
 
-    await state.zkappWorkerClient!.createUpdateTransaction();
+    await state.zkappWorkerClient!.createUpdateTransaction(
+      Field.fromBits([false, false, true])
+    );
 
     setDisplayText("Creating proof...");
     console.log("Creating proof...");
@@ -176,7 +178,7 @@ export default function Home() {
     await state.zkappWorkerClient!.fetchAccount({
       publicKey: state.zkappPublicKey!,
     });
-    const currentNum = await state.zkappWorkerClient!.getNum();
+    const currentNum = await state.zkappWorkerClient!.getCountries();
     setState({ ...state, currentNum });
     console.log(`Current state in zkApp: ${currentNum.toString()}`);
     setDisplayText("");
