@@ -17,23 +17,26 @@
          fill: #f0f0f0;
          }
          .land:hover {
-         fill: #f0f0f0;
+         fill: #2563eb;
          }
          .landxx:hover {
-         fill: #f0f0f0;
+         fill: #2563eb;
          }
-         .water {
-         fill: #0f172a;
-}
+         
          .ocean {
          fill: #0f172a;
          }
+
+         .ocean:hover, .ocean.visited-country {
+         fill: #0f172a !important;
+         }
+
          .entities path {
          fill: #334155;
          }
-         .visited-country {
-         fill: #2563eb;
-         }
+         .entities path.visited-country {
+  fill: #2563eb !important;
+}
 
       </style>
   <defs
