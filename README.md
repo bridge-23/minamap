@@ -2,7 +2,6 @@
 🌍 Mina Map 🌏
 Explore. Record. Blockchainize. Your travels immortalized on the Mina Blockchain.
 
- <!-- Replace 'banner.jpg' with the path to an actual banner image for Mina Map -->
 
 Empowering adventurers and explorers to blockchainize their journeys across the globe.
 
