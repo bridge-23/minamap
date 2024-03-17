@@ -81,7 +81,6 @@ function MapPage(param) {
         };
         return listenersCache[countryId];
     }
-    // Функции для масштабирования
     const zoomIn = ()=>{
         setScale(scale * 1.1);
     };
@@ -93,9 +92,8 @@ function MapPage(param) {
         setPosition({
             x: 0,
             y: 0
-        }); // Сброс позиции при сбросе масштаба
+        });
     };
-    // Обработчики событий мыши
     const handleMouseDown = (e)=>{
         setIsDragging(true);
         setStartPosition({
@@ -166,7 +164,12 @@ function MapPage(param) {
                 onMouseMove: handleMouseMove,
                 onMouseLeave: handleMouseUp,
                 className: "w-full h-full",
-                children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_public_images_countries_svg__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z, {})
+                children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_public_images_countries_svg__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z, {
+                    style: {
+                        transform: "translate(".concat(position.x, "px, ").concat(position.y, "px) scale(").concat(scale, ")"),
+                        transformOrigin: "center center"
+                    }
+                })
             })
         ]
     });
@@ -698,12 +701,18 @@ function Home() {
             ]
         });
     }
-    const stepDisplay = transactionlink ? /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
-        href: displayText,
-        target: "_blank",
-        rel: "noreferrer",
-        children: "View transaction"
-    }) : displayText;
+    const stepDisplay = transactionlink ? /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        className: "fixed bottom-0 left-0 flex flex-col items-start justify-end h-full pb-4 pl-4",
+        children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
+            href: transactionlink,
+            target: "_blank",
+            rel: "noreferrer",
+            children: "View transaction"
+        })
+    }) : /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        className: "fixed bottom-0 left-0 flex flex-col items-start justify-end h-full pb-4 pl-4",
+        children: displayText
+    });
     let setup = /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: (_styles_Home_module_css__WEBPACK_IMPORTED_MODULE_7___default().start),
         style: {
@@ -741,7 +750,10 @@ function Home() {
         mainContent = /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             style: {
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                position: "fixed",
+                right: "20px",
+                bottom: "20px"
             },
             children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                 className: (_styles_Home_module_css__WEBPACK_IMPORTED_MODULE_7___default().card),
