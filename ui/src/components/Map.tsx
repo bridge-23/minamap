@@ -46,7 +46,6 @@ export function MapPage({ visitedCountries, onCountryClick }: MapPageProps) {
     return listenersCache[countryId];
   }
 
-    // Функции для масштабирования
     const zoomIn = () => {
       setScale(scale * 1.1);
     };
@@ -57,10 +56,9 @@ export function MapPage({ visitedCountries, onCountryClick }: MapPageProps) {
   
     const resetZoom = () => {
       setScale(1);
-      setPosition({ x: 0, y: 0 }); // Сброс позиции при сбросе масштаба
+      setPosition({ x: 0, y: 0 });
     };
   
-    // Обработчики событий мыши
     const handleMouseDown = (e: { clientX: number; clientY: number; preventDefault: () => void; }) => {
       setIsDragging(true);
       setStartPosition({ x: e.clientX - position.x, y: e.clientY - position.y });
@@ -114,7 +112,9 @@ export function MapPage({ visitedCountries, onCountryClick }: MapPageProps) {
         <button onClick={resetZoom} className="bg-blue-500 text-white px-4 py-2 rounded">Reset</button>
       </div>
       <div onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onMouseLeave={handleMouseUp} className="w-full h-full">
-        <WorldMapSVG />
+        <WorldMapSVG
+          style={{ transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`, transformOrigin: 'center center' }}
+        />
       </div>
     </div>
   );
