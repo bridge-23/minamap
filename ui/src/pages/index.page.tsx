@@ -112,7 +112,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       if (state.hasBeenSetup && !state.accountExists) {
-        for (;;) {
+        for (; ;) {
           setDisplayText("Checking if fee payer account exists...");
           console.log("Checking if fee payer account exists...");
           const res = await state.zkappWorkerClient!.fetchAccount({
@@ -268,11 +268,15 @@ export default function Home() {
   }
 
   const stepDisplay = transactionlink ? (
-    <a href={displayText} target="_blank" rel="noreferrer">
-      View transaction
-    </a>
+    <div className="fixed bottom-0 left-0 flex flex-col items-start justify-end h-full pb-4 pl-4">
+      <a href={transactionlink} target="_blank" rel="noreferrer">
+        View transaction
+      </a>
+    </div>
   ) : (
-    displayText
+    <div className="fixed bottom-0 left-0 flex flex-col items-start justify-end h-full pb-4 pl-4">
+      {displayText}
+    </div>
   );
 
   let setup = (
@@ -302,7 +306,11 @@ export default function Home() {
   let mainContent;
   if (state.hasBeenSetup && state.accountExists) {
     mainContent = (
-      <div style={{ justifyContent: "center", alignItems: "center" }}>
+      <div style={{
+        justifyContent: "center", alignItems: "center", position: 'fixed',
+        right: '20px',
+        bottom: '20px',
+      }}>
         {/* <button
           className={styles.card}
           onClick={onSendTransaction}
