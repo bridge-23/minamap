@@ -267,19 +267,6 @@ export default function Home() {
     hasWallet = <div>Could not find a wallet. {auroLinkElem}</div>;
   }
 
-  // const stepDisplay = transactionlink ? (
-  //   <div className="flex flex-col items-end justify-ce h-full mt-2 pr-4">
-  //     <a href={displayText} target="_blank" rel="noreferrer">
-  //       View transaction
-  //     </a>
-  //   </div>
-  // ) : (
-  //   <div className="flex flex-col items-end justify-end h-full mt-2 pr-4">
-  //     {displayText}
-  //   </div>
-  // );
-
-
   const stepDisplay = transactionlink ? (
     <div className="fixed bottom-0 left-0 flex flex-col items-start justify-end h-full pb-4 pl-4">
       <a href={transactionlink} target="_blank" rel="noreferrer">
